@@ -9,8 +9,9 @@ public class ParticleSwarm(int dimensions)
     public double[] GlobalBestPosition { get; set; } = new double[dimensions];
 
     public void MoveAll() => Particles.ForEach(p => p.Move());
-    public void UpdateBestPositions(Func<double[], double> fitnessFunction)
+    public bool UpdateBestPositions(Func<double[], double> fitnessFunction)
     {
+        var updated = false;
         foreach (var particle in Particles)
         {
             particle.UpdateBestPosition(fitnessFunction);
@@ -19,8 +20,10 @@ public class ParticleSwarm(int dimensions)
             if (fitness < fitnessFunction(GlobalBestPosition))
             {
                 GlobalBestPosition = (double[]) particle.BestPosition.Clone();
+                updated = true;
             }
         }
+        return updated;
     }
     
     public void UpdateVelocities(double wOwn, double wSwarm, Random? random = null)

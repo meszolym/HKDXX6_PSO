@@ -21,13 +21,12 @@ public class Particle(int dimensions)
         var particle = new Particle(dimensions);
         for (var i = 0; i < particle._position.Length; i++)
         {
-            particle._position[i] = random.NextDouble() * 100;
-            particle._velocity[i] = random.NextDouble() * 10;
+            particle._position[i] = random.NextDouble() * 10 * random.Next(0,2) == 0 ? -1 : 1;
+            particle._velocity[i] = random.NextDouble() * 10 * random.Next(0,2) == 0 ? -1 : 1;
             particle.BestPosition[i] = particle._position[i];
         }
         return particle;
     }
-    
     
     public void Move()
     {
@@ -40,7 +39,7 @@ public class Particle(int dimensions)
     public void UpdateBestPosition(Func<double[], double> fitnessFunction)
     {
         if (fitnessFunction(_position) < fitnessFunction(BestPosition))
-            BestPosition = _position;
+            BestPosition = (double[])_position.Clone();
     }
 
     public void UpdateVelocity(double[] swarmBestPosition, double wOwn, double wSwarm, Random? random = null)

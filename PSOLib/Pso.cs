@@ -13,8 +13,11 @@ public class Pso
     private readonly Func<double[], double> _fitnessFunction;
     private readonly Stopwatch _stopwatch = new();
     private TimeSpan _maxTime;
+    private int _iter = 0;
+    private int _lastUpdate = 0;
+    private int _maxNoUpdateIter;
     
-    public Pso(int dimensions, int numberOfParticles, Func<double[], double> fitnessFunction, double wOwn, double wSwarm, Random? random = null)
+    public Pso(int dimensions, int numberOfParticles, Func<double[], double> fitnessFunction, double wOwn, double wSwarm, int maxNoUpdateIter, Random? random = null)
     {
         random ??= Random.Shared;
         
@@ -22,14 +25,14 @@ public class Pso
         _fitnessFunction = fitnessFunction;
         _wOwn = wOwn;
         _wSwarm = wSwarm;
+        _maxNoUpdateIter = maxNoUpdateIter;
 
         for (var i = 0; i < numberOfParticles; i++)
         {
             Swarm.Particles.Add(Particle.FromRandom(dimensions, random));
         }
-        Swarm.GlobalBestPosition = Swarm.Particles[0].BestPosition;
-        
-        
+        Swarm.GlobalBestPosition = Swarm.Particles.OrderBy(p => fitnessFunction(p.BestPosition))
+            .First().BestPosition;
     }
 
     public void Run(TimeSpan maxTime)
@@ -39,12 +42,13 @@ public class Pso
         while (!StopCondition())
         {
             Swarm.MoveAll();
-            Swarm.UpdateBestPositions(_fitnessFunction);
+            var updated = Swarm.UpdateBestPositions(_fitnessFunction);
+            if (updated) _lastUpdate = _iter;
             Swarm.UpdateVelocities(_wOwn, _wSwarm);
+            _iter++;
         }
         _stopwatch.Stop();
         _stopwatch.Reset();
     }
-
-    private bool StopCondition() => _fitnessFunction(Swarm.GlobalBestPosition) < 0.01 || _stopwatch.Elapsed > _maxTime;
+    private bool StopCondition() => _fitnessFunction(Swarm.GlobalBestPosition) < 0.01 || _iter - _lastUpdate >= _maxNoUpdateIter || _stopwatch.Elapsed > _maxTime;
 }
