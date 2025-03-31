@@ -6,9 +6,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        var n = 5;
-        var pso = new Pso(n, n * 5, AckleyFitness, 1, 1.5, 500);
-        pso.Run(TimeSpan.FromMinutes(1));
+        // int n = 5;
+        // var pso = new Pso(n, n * 5, AckleyFitness, 1, 1.5);
+        // pso.Run(TimeSpan.FromMinutes(1), 10000, 0.1);
+        
+        // int n = 2;
+        // var pso = new Pso(n, n * 5, HimmelbauFitness, 1, 1.5);
+        // pso.Run(TimeSpan.FromMinutes(1), 10000, 0.1);
     }
     
     public static double AckleyFitness(double[] x)
@@ -27,5 +31,15 @@ class Program
         double term2 = -Math.Exp(sum2 / n);
         
         return term1 + term2 + 20 + Math.E;
+    }
+
+    public static double HimmelbauFitness(double[] x)
+    {
+        if (x.Length != 2) throw new ArgumentException("x must have length 2 for Himmelbau's function.");
+        
+        double x1 = x[0];
+        double x2 = x[1];
+        
+        return Math.Pow(x1 * x1 + x2 - 11, 2) + Math.Pow(x1 + x2 * x2 - 7, 2);
     }
 }
