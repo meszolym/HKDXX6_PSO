@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HKDXX6_PSO", "HKDXX6_PSO\HKDXX6_PSO.csproj", "{A2A5BDE8-AA48-4B9A-8D32-BD229CF850EE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSOLib", "PSOLib\PSOLib.csproj", "{B786DAD7-6897-484B-A1DC-59A0ECEA91E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{44CB6C97-D397-49D5-97FC-6F410BFA0093}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,13 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2A5BDE8-AA48-4B9A-8D32-BD229CF850EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2A5BDE8-AA48-4B9A-8D32-BD229CF850EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2A5BDE8-AA48-4B9A-8D32-BD229CF850EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2A5BDE8-AA48-4B9A-8D32-BD229CF850EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B786DAD7-6897-484B-A1DC-59A0ECEA91E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B786DAD7-6897-484B-A1DC-59A0ECEA91E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B786DAD7-6897-484B-A1DC-59A0ECEA91E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B786DAD7-6897-484B-A1DC-59A0ECEA91E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44CB6C97-D397-49D5-97FC-6F410BFA0093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44CB6C97-D397-49D5-97FC-6F410BFA0093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44CB6C97-D397-49D5-97FC-6F410BFA0093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44CB6C97-D397-49D5-97FC-6F410BFA0093}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
