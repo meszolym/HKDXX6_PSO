@@ -1,41 +1,63 @@
-﻿namespace HKDXX6_PSO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace HKDXX6_PSO;
 
 class Program
 {
     static void Main(string[] args)
     {
-        var checkPoints = GenerateRandomTuples(50);
-        var pso = new Pso(7, 250, x => Fitness(x, checkPoints));
         
-        pso.Run();
-        Console.WriteLine("Best position: " + string.Join(", ", pso.Swarm.GlobalBestPosition));
-        Console.WriteLine("Best fitness: " + Fitness(pso.Swarm.GlobalBestPosition, checkPoints));
-        Console.WriteLine("Checkpoints: " + string.Join(", ", checkPoints.Select(x => $"({x.Key}, {x.Value})")));
     }
+    
 
-    static Dictionary<double, double> GenerateRandomTuples(int number, Random? random = null)
+}
+
+public class Point
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+
+    public Point(double x, double y)
     {
-        random ??= Random.Shared;
-        
-        var tuples = new Dictionary<double, double>();
-        
-        for (var i = 0; i < number; i++)
-        {
-            tuples.Add(random.NextDouble()*100, random.NextDouble()*100);
-        }
-        return tuples;
+        X = x;
+        Y = y;
+    }
+}
+class Circle
+{
+    public Point Center { get; set; }
+    public double Radius { get; set; }
+
+    public Circle(double radius, double x, double y)
+    {
+        Radius = radius;
     }
 
-    static double Fitness(double[] position, Dictionary<double, double> checkPoints) 
-        => checkPoints.Average(x => Math.Abs(x.Value - F(x.Key, position)));
+    public double Area()
+    {
+        return Math.PI * Math.Pow(Radius, 2);
+    }
 
-    static double F(double x, double[] coefficients) =>
-        coefficients[0] * Math.Pow(x, 2) 
-        + coefficients[1] * x 
-        + coefficients[2] * Math.Sin(x) 
-        + coefficients[3] * Math.Cos(x) 
-        + coefficients[4] * Math.Tan(x) 
-        + coefficients[5] * Math.Log2(x) 
-        + coefficients[6] * Math.Sqrt(x);
+    public double Circumference()
+    {
+        return 2 * Math.PI * Radius;
+    }
+}
 
+public class Rectangle
+{
+    public Point TopLeft { get; set; }
+    public Point BottomRight { get; set; }
+    
+    public double Area()
+    {
+        return Math.Abs(TopLeft.X - BottomRight.X) * Math.Abs(TopLeft.Y - BottomRight.Y);
+    }
+    
+    public double Perimeter()
+    {
+        return 2 * (Math.Abs(TopLeft.X - BottomRight.X) + Math.Abs(TopLeft.Y - BottomRight.Y));
+    }
 }

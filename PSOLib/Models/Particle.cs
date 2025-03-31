@@ -1,11 +1,20 @@
-namespace HKDXX6_PSO.Models;
+using System;
+
+namespace HKDXX6_PSO.PSOLib.Models;
 
 public class Particle(int dimensions)
 {
     private readonly double[] _position = new double[dimensions];
     private readonly double[] _velocity = new double[dimensions];
+
     public double[] BestPosition { get; private set; } = new double[dimensions];
 
+    /// <summary>
+    /// Generates a particle with a random position and velocity.
+    /// </summary>
+    /// <param name="dimensions">The number of dimensions the particle is in.</param>
+    /// <param name="random"></param>
+    /// <returns></returns>
     public static Particle FromRandom(int dimensions, Random? random = null)
     {
         random ??= Random.Shared;
@@ -19,6 +28,7 @@ public class Particle(int dimensions)
         return particle;
     }
     
+    
     public void Move()
     {
         for (var i = 0; i < dimensions; i++)
@@ -27,12 +37,10 @@ public class Particle(int dimensions)
         }
     }
     
-    public bool UpdateBestPosition(Func<double[], double> fitnessFunction)
+    public void UpdateBestPosition(Func<double[], double> fitnessFunction)
     {
-        if (fitnessFunction(_position) >= fitnessFunction(BestPosition)) return false;
-        
-        BestPosition = _position;
-        return true;
+        if (fitnessFunction(_position) < fitnessFunction(BestPosition))
+            BestPosition = _position;
     }
 
     public void UpdateVelocity(double[] swarmBestPosition, double wOwn, double wSwarm, Random? random = null)
@@ -41,7 +49,7 @@ public class Particle(int dimensions)
         for (var i = 0; i < dimensions; i++)
         {
             _velocity[i] = _velocity[i] 
-                          + random.NextDouble() * wOwn * (BestPosition[i]- _position[i])
+                          + random.NextDouble() * wOwn * (BestPosition[i] - _position[i])
                           + random.NextDouble() * wSwarm * (swarmBestPosition[i] - _position[i]);
         }
     }

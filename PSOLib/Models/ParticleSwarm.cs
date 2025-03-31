@@ -1,4 +1,7 @@
-namespace HKDXX6_PSO.Models;
+using System;
+using System.Collections.Generic;
+
+namespace HKDXX6_PSO.PSOLib.Models;
 
 public class ParticleSwarm(int dimensions)
 {
@@ -10,14 +13,12 @@ public class ParticleSwarm(int dimensions)
     {
         foreach (var particle in Particles)
         {
-            var isUpdated = particle.UpdateBestPosition(fitnessFunction);
-            if (isUpdated)
+            particle.UpdateBestPosition(fitnessFunction);
+
+            var fitness = fitnessFunction(particle.BestPosition);
+            if (fitness < fitnessFunction(GlobalBestPosition))
             {
-                var fitness = fitnessFunction(particle.BestPosition);
-                if (fitness < fitnessFunction(GlobalBestPosition))
-                {
-                    GlobalBestPosition = particle.BestPosition;
-                }
+                GlobalBestPosition = (double[]) particle.BestPosition.Clone();
             }
         }
     }
